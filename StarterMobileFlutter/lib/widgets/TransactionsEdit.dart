@@ -24,6 +24,8 @@ class _TransactionEditState extends State<TransactionEdit> {
   final transactionDateController = TextEditingController();
   String errorMessage = '';
 
+
+  
   @override
   void initState() {
     transactionAmountController.text = widget.transaction.amount.toString();
@@ -31,6 +33,15 @@ class _TransactionEditState extends State<TransactionEdit> {
     transactionDescriptionController.text = widget.transaction.description.toString();
     transactionDateController.text = widget.transaction.transactionDate.toString();
     super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    transactionAmountController.dispose();
+    transactionCategoryController.dispose();
+    transactionDescriptionController.dispose();
+    transactionDateController.dispose();
   }
 
   @override

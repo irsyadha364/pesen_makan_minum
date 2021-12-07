@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/AuthProvider.dart';
+import 'package:my_first_app/screens/bayar.dart';
 import 'package:my_first_app/screens/categories.dart';
+import 'package:my_first_app/screens/home_page.dart';
 import 'package:my_first_app/screens/transactions.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +13,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectedIndex = 0;
-  List<Widget> widgetOptions = [Transactions(), Categories()];
+  List<Widget> widgetOptions = [
+    HomePage(),
+    //Transactions(), 
+    //Categories(),
+    BayarPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +33,22 @@ class _HomeState extends State<Home> {
             backgroundColor: Theme.of(context).primaryColor.withAlpha(0),
             elevation: 0,
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet),
-                  label: 'Transactions'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.category),
-                  label: 'Categories'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.logout),
-                  label: 'Log out')
-            ],
+            BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.red,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event_busy),
+            label: 'Bayar',
+            backgroundColor: Colors.purple,
+          ),
+          
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Exit',
+            backgroundColor: Colors.pink,
+          )],
             currentIndex: selectedIndex,
             onTap: onItemTapped,
           ),

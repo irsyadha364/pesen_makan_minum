@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/AuthProvider.dart';
 import 'package:my_first_app/providers/CategoryProvider.dart';
+import 'package:my_first_app/providers/DrinkProvider.dart';
+import 'package:my_first_app/providers/FoodProvider.dart';
+import 'package:my_first_app/providers/PesanProvider.dart';
+import 'package:my_first_app/providers/TokoProvider.dart';
 import 'package:my_first_app/providers/TransactionProvider.dart';
 import 'package:my_first_app/screens/categories.dart';
 import 'package:my_first_app/screens/home.dart';
+import 'package:my_first_app/screens/home_page.dart';
 import 'package:my_first_app/screens/login.dart';
 import 'package:my_first_app/screens/register.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +26,15 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider<CategoryProvider>(
                     create: (context) => CategoryProvider(authProvider)),
                 ChangeNotifierProvider<TransactionProvider>(
-                    create: (context) => TransactionProvider(authProvider))
+                    create: (context) => TransactionProvider(authProvider)),
+                ChangeNotifierProvider<TokoProvider>(
+                    create: (context) => TokoProvider(authProvider)),
+                ChangeNotifierProvider<FoodProvider>(
+                    create: (context) => FoodProvider(authProvider)),
+                ChangeNotifierProvider<DrinkProvider>(
+                    create: (context) => DrinkProvider(authProvider)),
+                ChangeNotifierProvider<PesanProvider>(
+                    create: (context) => PesanProvider(authProvider)),
               ],
               child: MaterialApp(title: 'Welcome to Flutter', routes: {
                 '/': (context) {
@@ -35,6 +48,7 @@ class MyApp extends StatelessWidget {
                 '/login': (context) => Login(),
                 '/register': (context) => Register(),
                 '/home': (context) => Home(),
+                '/homePage': (context) => HomePage(),
                 '/categories': (context) => Categories(),
               }));
         }));

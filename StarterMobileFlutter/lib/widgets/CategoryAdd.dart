@@ -15,6 +15,12 @@ class _CategoryAddState extends State<CategoryAdd> {
   String errorMessage = '';
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    categoryNameController.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.all(10),

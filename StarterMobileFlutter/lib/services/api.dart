@@ -3,6 +3,9 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:my_first_app/models/category.dart';
+import 'package:my_first_app/models/drink.dart';
+import 'package:my_first_app/models/food.dart';
+import 'package:my_first_app/models/toko.dart';
 import 'package:my_first_app/models/transaction.dart';
 
 class ApiService {
@@ -12,7 +15,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://flutter-api.laraveldaily.com/api/';
+  final String baseUrl = "http://10.0.2.2:8000/api/";
 
   Future<List<Category>> fetchCategories() async {
     http.Response response = await http.get(
@@ -79,6 +82,45 @@ class ApiService {
     }
   }
 
+  Future<List<Toko>> fetchToko() async{
+    http.Response response = await http.get(
+      Uri.parse(baseUrl + 'toko'),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+
+    List toko = jsonDecode(response.body);
+
+    return toko.map((transaction) => Toko.fromMap(transaction)).toList();
+  }
+  Future<List<Food>> fetchFood() async{
+    http.Response response = await http.get(
+      Uri.parse(baseUrl + 'food'),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+
+    List food = jsonDecode(response.body);
+
+    return food.map((transaction) => Food.fromMap(transaction)).toList();
+  }
+  Future<List<Drink>> fetchDrink() async{
+    http.Response response = await http.get(
+      Uri.parse(baseUrl + 'drink'),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+
+    List drink = jsonDecode(response.body);
+    
+    return drink.map((transaction) => Drink.fromMap(transaction)).toList();
+  }
   Future<List<Transaction>> fetchTransactions() async {
     http.Response response = await http.get(
       Uri.parse(baseUrl + 'transactions'),

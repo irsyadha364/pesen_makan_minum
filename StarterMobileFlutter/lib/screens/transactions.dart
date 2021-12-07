@@ -17,7 +17,7 @@ class _TransactionsState extends State<Transactions> {
     List<Transaction> transactions = provider.transactions;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( 
         title: Text('Transactions'),
       ),
       body: ListView.builder(

@@ -21,6 +21,12 @@ class _CategoryEditState extends State<CategoryEdit> {
     categoryNameController.text = widget.category.name;
     super.initState();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    categoryNameController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
