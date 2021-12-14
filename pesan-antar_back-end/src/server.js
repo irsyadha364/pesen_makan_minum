@@ -33,21 +33,32 @@ const FoodValidator = require('./validator/food')
 const drinks = require('./api/drinks')
 const DrinkService = require('./services/postgres/DrinksService')
 const DrinkValidator = require('./validator/drink')
+
+//Buyer
+const buyer = require('./api/buyer')
+const BuyersService = require('./services/postgres/BuyerService')
+const BuyerValidator = require('./validator/buyer')
+
+
+//Auth Buyer
+const authBuyer = require('./api/auth_buyer')
+
+
 const init = async () => {
 
     const userService = new UsersService()
     const shopService = new ShopsService()
     const foodService = new FoodService()
     const drinkService = new DrinkService()
-    
+    const buyerService = new BuyersService()
     const authenticationsService = new AuthenticationsService();
 
     const server = Hapi.server({
-        port : process.env.PORT,
-        host : process.env.HOST,
+        port: process.env.PORT,
+        host: process.env.HOST,
         routes: {
-            cors : {
-                origin : ['*'],
+            cors: {
+                origin: ['*'],
             }
         }
 
@@ -55,11 +66,11 @@ const init = async () => {
 
     await server.register([
         {
-            plugin : Jwt
+            plugin: Jwt
         }
     ])
 
-    server.auth.strategy('pesan_antar_jwt' ,'jwt' , {
+    server.auth.strategy('pesan_antar_jwt', 'jwt', {
         keys: process.env.ACCESS_TOKEN_KEY,
         verify: {
             aud: false,
@@ -78,44 +89,63 @@ const init = async () => {
 
     await server.register([
         {
-            plugin : users,
-            options : {
-                service : userService,
-                validator : UsersValidator
+            plugin: buyer,
+            options: {
+                service: buyerService,
+                validator: BuyerValidator
             }
         },
         {
-            plugin : shops,
-            options : {
-                service : shopService,
-                validator : ShopValidator
+            plugin: users,
+            options: {
+                service: userService,
+                validator: UsersValidator
+            }
+        },
+
+        {
+            plugin: shops,
+            options: {
+                service: shopService,
+                validator: ShopValidator
             }
         },
         {
-            plugin : foods,
-            options : {
-                service_shop : shopService,
-                service_food : foodService,
-                validator : FoodValidator
+            plugin: foods,
+            options: {
+                service_shop: shopService,
+                service_food: foodService,
+                validator: FoodValidator
             }
         },
         {
-            plugin : drinks,
-            options : {
-                service_shop : shopService,
-                service_drink : drinkService,
-                validator : DrinkValidator
+            plugin: drinks,
+            options: {
+                service_shop: shopService,
+                service_drink: drinkService,
+                validator: DrinkValidator
             }
+        },
+        {
+            plugin: authBuyer,
+            options: {
+                authenticationsService,
+                buyerService,
+                tokenManager: TokenManager,
+                validator: AuthenticationsValidator,
+            },
         },
         {
             plugin: authentications,
             options: {
-              authenticationsService,
-              userService,
-              tokenManager: TokenManager,
-              validator: AuthenticationsValidator,
+                authenticationsService,
+                userService,
+                tokenManager: TokenManager,
+                validator: AuthenticationsValidator,
             },
-          },
+        },
+
+
     ]);
     await server.start();
     console.log(`Server berjalan pada ${server.info.uri}`);
